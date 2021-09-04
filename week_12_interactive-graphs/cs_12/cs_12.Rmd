@@ -1,0 +1,87 @@
+---
+title: "CASE STUDY TITLE"
+author: "YOUR NAME"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:  
+    keep_md: true
+    toc: true
+    toc_float: true
+    code_folding: hide
+    fig_height: 6
+    fig_width: 12
+    fig_align: 'center'
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+```{r load_libraries, include=FALSE}
+# Use this R-Chunk to load all your libraries!
+#install.packages("tidyverse") # run this line once in console to get package
+library(tidyverse)
+library(tidyquant)
+library(dygraphs)
+library(lubridate) #for today() and years()
+library(xts)
+library(timetk)
+```
+
+```{r load_data}
+# Use this R-Chunk to import all your datasets!
+tickers_today <- c("CXW", "F", "GM", "KR", "WDC", "NKE","T", "WDAY", "WFC", "WMT")
+my_stocks <- tq_get(tickers_today,
+                    get = "stock.prices",
+                    from = today() - years(5))
+```
+
+## Background
+
+Your data science income has ballooned, and you need to find somewhere to invest $25,000 that you have saved over the last year. You have a savvy investment friend that is kind enough to tell you about ten stocks he has been watching during the last year. You will need to visualize the performance of these stocks over the last five years to help in the conversation with your friend.
+
+However, your friend is not going to tell you the stock symbols until the beginning of your half-hour meeting with him (he is a busy friend). You need to program an .Rmd file that will automatically build a suite of visualizations for any stocks he gives you.
+
+Your visualizations should use both library(dygraphs) and library(ggplot2). In real life, you might use one or the other, but this task is built to help you move from ts and xts to tidy objects for visualization.
+## Data Wrangling
+
+```{r tidy_data}
+# Use this R-Chunk to clean & wrangle your data!
+my_stocks_pivoted <- my_stocks %>% pivot_wider(id_cols = date, 
+                                 names_from = symbol, 
+                                 values_from = adjusted) 
+my_stocks_top3 <- my_stocks_pivoted %>%
+  mutate(top_3 = (WDAY + WMT + NKE)/3) %>%
+  tk_xts()
+
+my_stocks_pivoted <- my_stocks_pivoted %>% tk_xts()
+
+
+```
+
+## Data Visualization
+
+```{r plot_data}
+# Use this R-Chunk to plot & visualize your data!
+my_stocks_pivoted %>% dygraph(main = "Stock Performance last 5 years") %>%
+  dyHighlight() %>%
+  dyLegend()
+
+my_stocks_pivoted %>% dygraph(main = "Stock Performance last 5 years (25000 investment)") %>%
+  dyHighlight() %>%
+  dyRebase(25000) %>%
+  dyLegend()
+
+my_stocks_top3 %>% dygraph(main = "Stock Permofrmance last 5 years (including average of top three recommendations)") %>%
+  dyHighlight() %>%
+  dyRebase(25000) %>%
+  dyLegend()
+
+my_stocks %>% ggplot() +
+  geom_boxplot(aes(x = symbol, y = volume, color = symbol)) +
+  labs(title = "Stock Volume")
+```
+
+## Conclusions
+The first graph shows stock performance for the selected stocks. From this graph it is clear that WDAY, WMT, and NKE have experienced the most growth. In the next graph we rebase the stocks to show what the growth of 25000 would have been like invested in each of these stocks. The third graph is the same, but an additional series showing the growth of 25000 invested equally between the three top stocks, WDAY, WMT, and NKE would have looked like.
+The final graph shows the volume of the selected stocks. Stocks with a higher volume may be more stable and safer to invest in, but have less return. Looking at the performance of F, the stock with the highest median volume, the returns over 5 years was very low.

@@ -1,0 +1,97 @@
+---
+title: "Wealth and Life Expectancy"
+author: "Adam Nielsen"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:  
+    keep_md: true
+    toc: true
+    toc_float: true
+    code_folding: hide
+    fig_height: 6
+    fig_width: 12
+    fig_align: 'center'
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+```{r load_libraries, include=FALSE}
+# Use this R-Chunk to load all your libraries!
+#install.packages("tidyverse") # run this line once in console to get package
+library(gapminder)
+library(tidyverse)
+
+```
+
+```{r load_data}
+# Use this R-Chunk to import all your datasets!
+data <- gapminder
+```
+
+## Background
+
+Hans Rosling is one of the most popular data scientists on the web. His original TED talk (Links to an external site.) set a new bar for data visualization. We are going to create some graphics using his formatted data as our weekly case study.
+
+## Data Wrangling
+
+```{r tidy_data}
+# Use this R-Chunk to clean & wrangle your data!
+glimpse(data)
+```
+
+## Data Visualization
+
+Pick one quantitative variable and create a chart that summarizes the distribution.
+
+I chose to look at the life expectancy for each continent. While the maximum life expectancy is very similar, the median life expectancy varies a lot from continent to continent. Asia has the highest maximum life expectancy but one of the lowest median life expectancies recorded.  
+```{r}
+# Use this R-Chunk to plot & visualize your data!
+ggplot(data = data) + 
+  stat_summary(
+    mapping = aes(x = lifeExp, y = continent),
+    fun.min = min,
+    fun.max = max,
+    fun = median
+  )
+```
+
+Pick one qualitative variable and create a chart that summarizes the distribution.  
+
+This chart helps explain why Oceania has a very low spread in the above chart. There are very few countries there. Seeing how many countries there are in each continent gives more context when looking at data on the continental scale.
+```{r}
+# Use this R-Chunk to plot & visualize your data!
+ggplot(data = data) +
+  geom_bar(mapping = aes(x = continent,
+                         fill = continent))
+```
+
+Pick any two variables and create a chart that summarizes the bivariate distribution (the relationship between the two).  
+
+This chart looks at the relationship between gdp per capita and life expectancy. I also included colors by continent and the size of the point is dependent on the population of the country. There is a clear trend between the two variables! I think it's interesting to note the higher life expectancy in many asian countries despite the lower gdp per capita and the lower life expectancy in African countries despite having a higher gdp per capita.  
+```{r}
+# Use this R-Chunk to plot & visualize your data!
+ggplot(data = data) +
+  geom_point(mapping = aes(x = lifeExp,
+                           y = gdpPercap,
+                         color = continent,
+                         size = pop))
+```
+
+Recreate the graphic shown below (get them to match as closely as you can)  
+```{r}
+# Use this R-Chunk to plot & visualize your data!
+data %>% filter(country != "Kuwait") %>%
+ggplot() +
+  geom_point(mapping = aes(x = lifeExp,
+                           y = gdpPercap,
+                           size = pop / 100000,
+                           color = continent)) +
+  scale_y_continuous(trans = "sqrt") +
+  facet_grid(~ year) +
+  labs(x = "Life Expectancy", y = "GDP per capita", color = "Continent", size = "Population (100k)")
+ggsave("plot.png", width = 19, device = "png", units = "in")
+```
+
+## Conclusions

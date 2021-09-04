@@ -1,0 +1,80 @@
+---
+title: "Take me out to the ball game"
+author: "Adam Nielsen"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:  
+    keep_md: true
+    toc: true
+    toc_float: true
+    code_folding: hide
+    fig_height: 6
+    fig_width: 12
+    fig_align: 'center'
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+```{r load_libraries, include=FALSE}
+# Use this R-Chunk to load all your libraries!
+#install.packages("tidyverse") # run this line once in console to get package
+library(tidyverse)
+library(Lahman)
+library(blscrapeR)
+```
+
+```{r load_data}
+# Use this R-Chunk to import all your datasets!
+players <- People %>%
+  select(playerID, nameFirst, nameLast)
+
+schools <- Schools %>%
+  select(schoolID, name_full, state)
+
+colleges <- CollegePlaying %>%
+  select(playerID, schoolID)
+
+salaries <- Salaries %>%
+  select(playerID, salary, yearID)
+
+
+```
+
+## Background
+
+Over the campfire, you and a friend get into a debate about which college in Utah has had the best MLB success. As an avid BYU fan, you want to prove your point, and you go to data to settle the debate. You need a clear visualization that depicts the performance of BYU players compared to other Utah college players that have played in the major leagues. The library(Lahman) package has a comprehensive set of baseball data. It is great for testing out our relational data skills. We will also need a function to adjust player salaries due to inflation- library(blscrapeR). See this guide for an example (Links to an external site.).
+
+## Data Wrangling
+
+```{r tidy_data}
+# Use this R-Chunk to clean & wrangle your data!
+inflation <- inflation_adjust(2020) %>%
+  select(year, adj_value) %>%
+  mutate(year = as.integer(year))
+
+UtahMLB <- players %>%
+  left_join(colleges) %>%
+  left_join(salaries) %>%
+  left_join(schools) %>%
+  filter(state == "UT") %>%
+  filter(!is.na(salary)) %>%
+  left_join(inflation, by = c("yearID" = "year")) %>%
+  mutate(adjusted_salary = salary/adj_value) %>%
+  mutate(BYU = case_when(schoolID == "byu" ~ "BYU", schoolID != "byu" ~ "OTHER"))
+```
+
+## Data Visualization
+
+```{r plot_data}
+# Use this R-Chunk to plot & visualize your data!
+ggplot(UtahMLB, aes(x = yearID, y = salary/100000, color = BYU)) +
+  geom_jitter() +
+  labs(x = "Year",
+       y = "Adjusted Salary (per $100,000)",
+       title = "Utah MLB player salaries",
+       color = "School")
+```
+
+## Conclusions

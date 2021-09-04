@@ -1,0 +1,64 @@
+---
+title: "Reducing gun deaths"
+author: "Adam Nielsen"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:  
+    keep_md: true
+    toc: true
+    toc_float: true
+    code_folding: hide
+    fig_height: 6
+    fig_width: 12
+    fig_align: 'center'
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+```{r load_libraries, include=FALSE}
+# Use this R-Chunk to load all your libraries!
+#install.packages("tidyverse") # run this line once in console to get package
+library(tidyverse)
+
+```
+
+```{r load_data}
+# Use this R-Chunk to import all your datasets!
+gun_data <- read_csv("https://github.com/fivethirtyeight/guns-data/blob/master/full_data.csv?raw=true")
+```
+
+## Background
+
+The world is a dangerous place. During 2015 and 2016 there was a lot of discussion in the news about police shootings. FiveThirtyEight reported on gun deaths in 2016 (Links to an external site.). As leaders in data journalism, they have posted a clean version of this data in their GitHub repo called full_data.csv (Links to an external site.) for us to use.
+
+While their visualizations focused on yearly averages, our client wants to create commercials that help reduce the gun deaths in the US. They would like to target the commercials in different seasons of the year (think month variable) to audiences that could have the most impact in reducing gun deaths. Our challenge is to summarize and visualize seasonal trends across the other variables in these data.
+
+## Data Wrangling
+
+```{r tidy_data}
+# Use this R-Chunk to clean & wrangle your data!
+
+```
+
+## Data Visualization
+
+```{r plot_data}
+# Use this R-Chunk to plot & visualize your data!
+gun_data %>%
+  ggplot(mapping = aes(x = intent)) +
+  geom_bar()
+
+gun_data %>%
+  ggplot(mapping = aes(x= month, fill = age)) +
+  geom_bar() +
+  facet_wrap(~ intent, scales = "free") 
+
+gun_data %>%
+  filter(intent == "Accidental") %>%
+  ggplot(mapping = aes(x = place)) +
+  geom_bar()
+```
+
+## Conclusions

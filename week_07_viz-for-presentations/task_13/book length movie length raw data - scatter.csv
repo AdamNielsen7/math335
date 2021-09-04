@@ -1,0 +1,73 @@
+Group,Title,Movie Year,Movie Length (minutes),IMDB ranking,Book Year,Book length (words),Movie Length (seconds),Words in book per second of movie,Wikipedia best sellers?
+,A Message to Garcia,1936,77,6.2,1899,,4620,0,y
+,Valley of the Dolls,1967,123,5.4,1966,,7380,0,y
+,The Revolt of Mamie Stover,1956,92,6.4,1951,,5520,0,y
+,The Celestine Prophecy,2006,99,4.7,1993,,5940,0,y
+,The Godfather,1972,175,9.2,1969,,10500,0,y
+,Jaws,1975,124,8.2,1974,,7440,0,y
+,Where the Wild Things Are,2009,101,6.8,1963,,6060,0,y
+,The Horse Whisperer,1998,170,6.4,1995,,10200,0,y
+,God's Little Acre,1958,118,6.8,1933,,7080,0,y
+,Peyton Place,1957,157,7.1,1956,,9420,0,y
+,The Bridges of Madison County,1995,135,7.4,1992,,8100,0,y
+,The Exorcist,1973,122,8,1971,,7320,0,y
+,The Cat in the Hat,2003,82,3.6,1957,,4920,0,y
+,Jonathan Livingston Seagull,1973,120,5.6,1970,"8,967",7200,1.245416667,y
+The Hobbit,The Hobbit (1),2012,169,8.1,1937,"31,674",10140,3.123668639,y
+The Hobbit,The Hobbit (2),2013,169,,1937,"31,674",10140,3.123668639,y
+The Hobbit,The Hobbit (3),2014,169,,1937,"31,674",10140,3.123668639,y
+,Love Story,1970,99,6.7,1970,"24,854",5940,4.184175084,y
+,"The Lion, The Witch, and the Wardrobe",2005,143,6.9,1950,"36,363",8580,4.238111888,y
+,Charlie and the Chocolate Factory,2005,115,6.8,1964,"30,644",6900,4.44115942,y
+,Charlie and the Chocolate Factory,1971,100,7.8,1964,"30,644",6000,5.107333333,y
+,The Old Man And The Sea,1958,86,6.9,1952,"26,560",5160,5.147286822,y
+,The Great Gatsby,1974,144,6.3,1925,"47,094",8640,5.450694444,y
+,Charlotte's Web,2006,97,6.4,1952,"31,938",5820,5.487628866,y
+,The Great Gatsby,2013,143,7.4,1925,"47,094",8580,5.488811189,y
+,Charlotte's Web,1973,94,6.8,1952,"31,938",5640,5.662765957,y
+,The Hitchhiker's Guide to the Galaxy,2005,109,6.7,1979,"46,333",6540,7.084556575,y
+Harry Potter,Harry Potter and the Philosopher's Stone,2001,152,7.3,1997,"77,325",9120,8.478618421,y
+,The Great Gatsby,1949,91,6.5,1925,"47,094",5460,8.625274725,y
+Harry Potter,Harry Potter and the Chamber of Secrets,2002,161,7.2,1998,"84,799",9660,8.778364389,y
+,The Outsiders,1983,91,7.1,1967,"48,523",5460,8.886996337,y
+,And Then There Were None (Ten Little Indians),1974,98,5.4,1939,"52,656",5880,8.955102041,y
+,And Then There Were None,1945,97,7.7,1939,"52,656",5820,9.04742268,y
+,And Then There Were None (Agatha Christie's 'Ten Little Indians'),1965,91,6.6,1939,"52,656",5460,9.643956044,y
+The Lord of the Rings,The Return of the King,2003,201,8.9,1955,"134,462",12060,11.14941957,y
+Harry Potter,Harry Potter and the Deathly Hallows (1),2010,146,7.6,2007,"99,114",8760,11.31432648,y
+The Hunger Games,The Hunger Games,2012,142,7.2,2008,"99,750",8520,11.70774648,y
+,The Lovely Bones,2009,135,6.6,2002,"97,914",8100,12.08814815,y
+,Lolita,1962,152,7.7,1955,"112,473",9120,12.33256579,y
+Harry Potter,Harry Potter and the Prisoner of Azkaban,2004,142,7.7,1999,"106,821",8520,12.53767606,y
+Harry Potter,Harry Potter and the Deathly Hallows (2),2011,130,8.1,2007,"99,114",7800,12.70685897,y
+,To Kill a Mockingbird,1962,129,8.4,1960,"99,121",7740,12.80633075,y
+,1984,1984,113,7.1,1949,"88,942",6780,13.11828909,y
+,Life of Pi,2012,127,8.1,2001,"101,027",7620,13.25813648,y
+Twilight,Twilight: Breaking Dawn (1),2011,117,4.8,2008,"93,271",7020,13.28646724,y
+The Lord of the Rings,The Two Towers,2002,179,8.7,1954,"143,436",10740,13.35530726,y
+Twilight,Twilight: Breaking Dawn (2),2012,115,5.6,2008,"93,271",6900,13.51753623,y
+,Lolita,1997,137,6.7,1955,"112,473",8220,13.68284672,y
+,The Kite Runner,2007,128,7.6,2003,"107,052",7680,13.9390625,y
+,The Adventures of Huckleberry Finn,1974,118,5.2,1885,"105,590",7080,14.91384181,y
+,Eye of the Needle,1981,112,7,1978,"103,655",6720,15.42485119,y
+,The Da Vinci Code,2006,149,6.4,2003,"138,952",8940,15.54272931,y
+Twilight,Twilight,2008,122,5.2,2005,"118,975",7320,16.2534153,y
+,The Adventures of Huckleberry Finn,1993,108,5.9,1885,"105,590",6480,16.29475309,y
+,The Adventures of Huckleberry Finn,1960,107,6.2,1885,"105,590",6420,16.4470405,y
+,1984,1956,90,6.9,1949,"88,942",5400,16.47074074,y
+The Lord of the Rings,The Fellowship of the Rings,2001,178,8.8,1954,"177,227",10680,16.59428839,y
+Twilight,Twilight: New Moon,2009,130,4.5,2006,"132,758",7800,17.02025641,y
+,A Tale of Two Cities,1935,128,7.7,1859,"135,420",7680,17.6328125,y
+,Angels and Demons,2009,138,6.6,2000,"148,768",8280,17.96714976,y
+Harry Potter,Harry Potter and the Half-Blood Prince,2009,153,7.4,2005,"169,441",9180,18.45762527,y
+,A Tale of Two Cities,1958,117,7,1859,"135,420",7020,19.29059829,y
+,The Adventures of Huckleberry Finn,1939,91,6.9,1885,"105,590",5460,19.33882784,y
+Twilight,Twilight: Eclipse,2010,124,4.8,2007,"148,971",7440,20.02298387,y
+Harry Potter,Harry Potter and the Goblet of Fire,2005,157,7.6,2000,"190,858",9420,20.26093418,y
+,Anne of Green Gables,1934,78,6.9,1908,"97,364",4680,20.8042735,y
+,The Grapes of Wrath,1940,129,8.2,1939,"169,481",7740,21.89677003,y
+,Dune,1984,137,6.5,1965,"181,493",8220,22.07944039,y
+,Catch-22,1970,122,7.1,1961,"174,269",7320,23.80724044,y
+,Watership Down,1978,101,7.6,1972,"156,154",6060,25.7679868,y
+,Gone with the Wind,1939,238,8.2,1936,"418,053",14280,29.27542017,y
+Harry Potter,Harry Potter and the Order of the Phoenix,2007,138,7.4,2003,"257,154",8280,31.05724638,y

@@ -1,0 +1,59 @@
+---
+title: "cs_02"
+author: "Adam Nieslen"
+date: "1/14/2021"
+output: 
+  html_document:  
+    keep_md: true
+    toc: true
+    toc_float: true
+    code_folding: hide
+    fig_height: 6
+    fig_width: 12
+    fig_align: 'center'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+What interests you? What are your passions? Think at least three questions about topics you would be willing to study for your semester project. Create a section in your report for each question.  
+
+## Question 1  
+*What makes a protest get the most media attention? Does more media attention lead to a protests demands being met?  *
+
+This question interests me because of all the attention protests have been getting. People don't support protests because they usually dont get results, but I'm interested in the long term effects of protests. It's my hypothesis that protests that get talked about more do lead to evenutal change even if their demands are not immediately met.  
+
+I talked to my mom who is studying social work. She mentioned that she knew of a lot of studies reaserching this topic and I could probably find data from one of them.  
+
+Similar Data:  
+https://datajournalism.com/read/longreads/how-data-captured-americas-protests  
+https://www.creosotemaps.com/blm2020/  
+https://journals.sagepub.com/doi/10.1177/1940161219853517  
+
+## Question 2  
+*How does a cities spending on social programs affect the student graduation rate of that city?*  
+
+This one is interesting to me because I am really interesting in enabling everyone to have a successful career and to get educated. I'd be really interested to see how social programs help that!  
+
+My mom thought this would be really interesting! The question made sense to her and there should be lots of ready data on the subject.  
+
+I couldn't find any readily available articles on this subject. I need to do more reaserch into it!  
+
+There is plenty available data on government expenditure per capita and socioeconomic status of citizens. It may be difficult to isolate government spending specifically on social programs though. Needs more research.  
+
+## Question 3  
+*How does the amount of source material available for a film affect the films reception and profit?*   
+
+My mom was not as interested in this topic, but it makes sense that there may be some sort of correlation.  
+
+Similar studies:  
+https://www.overthinkingit.com/2013/08/07/book-length-vs-movie-length/  
+https://www.overthinkingit.com/2013/08/12/book-word-count-movie-length-2/  
+
+Data is available from many sources on this.
+```{r}
+
+```
+
+

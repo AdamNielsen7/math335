@@ -1,0 +1,134 @@
+---
+title: "Exploratory Data Analysis"
+author: "YOUR NAME"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:  
+    keep_md: true
+    toc: true
+    toc_float: true
+    fig_height: 6
+    fig_width: 12
+    fig_align: 'center'
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE)
+```
+
+## Reading Notes
+
+- EDA = Exploratory Data Analysis
+- “Far better an approximate answer to the right question, which is often vague, than an exact answer to the wrong question, which can always be made precise.” — John Tukey
+
+2 main questions  
+- What type of variation occurs within my variables?  
+- What type of covariation occurs between my variables?  
+
+**Variation**  
+categorical bar chart  
+*ggplot(data = diamonds) +*  
+  *geom_bar(mapping = aes(x = cut))*  
+  
+count the number in each category  
+*diamonds %>%*  
+  *count(cut)*  
+  
+continuous histogram  
+*ggplot(data = diamonds) +*  
+  *geom_histogram(mapping = aes(x = carat), binwidth = 0.5)*  
+  
+continuous count using "bins"  
+*diamonds %>% *  
+ *count(cut_width(carat, 0.5))*  
+ 
+overlapping histograms use freqpoly for better visualization  
+*ggplot(data = smaller, mapping = aes(x = carat, colour = cut)) +*  
+  *geom_freqpoly(binwidth = 0.1)*  
+  
+- Which values are the most common? Why?  
+- Which values are rare? Why? Does that match your expectations?  
+- Can you see any unusual patterns? What might explain them?  
+
+zoom into a plot with coord_cartesian  
+*ggplot(diamonds) +*   
+  *geom_histogram(mapping = aes(x = y), binwidth = 0.5) +*  
+  *coord_cartesian(ylim = c(0, 50))*  
+
+replace bad data using mutate and ifelse  
+*diamonds2 <- diamonds %>% *  
+  *mutate(y = ifelse(y < 3 | y > 20, NA, y))*  
+
+-Why are these values missing?  
+*mutate df to make seperate category?*  
+
+**Covariation**  
+use a density plot to standardize data between categories  
+*ggplot(data = diamonds, mapping = aes(x = price, y = ..density..)) +   
+  geom_freqpoly(mapping = aes(colour = cut), binwidth = 500)*  
+  
+boxplots are cool  
+*ggplot(data = diamonds, mapping = aes(x = cut, y = price)) +  
+  geom_boxplot()*
+  
+
+
+
+## EDA Example
+
+The code below is an example of the EDA process using the `starwars` data from the `tidyverse` package. (Make sure you have the `tidyverse` package installed!)
+
+Run the code line-by-line and look at the output. Add a comment to each line of code that explains what it does/what insights it provides.
+
+```{r}
+library(tidyverse)
+
+dim(starwars) #returns the dimensions of starwars
+colnames(starwars) # returns the column names of starwars
+
+head(starwars) # a small preview of the df
+glimpse(starwars) # the df by column
+
+?starwars # help and info about df, opens up a html page
+
+starwars %>% count(species) # a count of each species in df
+
+mean(starwars$height) #the mean of all heights
+mean(starwars$height, na.rm = TRUE) # the mean of all heights not counting NA values
+
+summary(starwars$height) #basic info for df (min mean max NA count etc)
+
+# a function that takes in cm and returns the equivelent length in feet
+cm_to_ft <- function(cm){ 
+  ft = cm / 30.48
+  return(ft)
+}
+
+#uses cm_to_feet to create a new variable height_ft in df
+starwars_2 <- starwars %>% mutate(height_ft = cm_to_ft(height)) 
+
+dim(starwars_2)
+colnames(starwars_2)
+
+summary(starwars_2$height_ft)
+
+#a histogram of height_ft
+ggplot(starwars_2, aes(height_ft)) + 
+  geom_histogram()
+
+#filter to find the tallest row, na.rm is needed
+starwars_2 %>% filter(height_ft == max(height_ft))
+starwars_2 %>% filter(height_ft == max(height_ft, na.rm = TRUE))
+
+# https://starwars.fandom.com/wiki/Yarael_Poof
+```
+
+## EDA Practice
+
+Continue exploring the `starwars` data to gain additional insights, using [R4DS: Chapter 7](https://r4ds.had.co.nz/exploratory-data-analysis.html) as a guide.
+
+It is ok if you don't understand the all code in Chapter 7. (That is what we'll be learning the next two weeks!) If writing your own code is a struggle, try the "copy, paste, and tweak" method.
+
+```{r}
+# your code goes here
+```

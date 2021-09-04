@@ -1,0 +1,131 @@
+---
+title: "Case Study 5: Heights"
+author: "Adam Nielsen"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:  
+    keep_md: true
+    toc: true
+    toc_float: true
+    code_folding: hide
+    fig_height: 6
+    fig_width: 12
+    fig_align: 'center'
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+```{r load_libraries, include=FALSE}
+# Use this R-Chunk to load all your libraries!
+#install.packages("tidyverse") # run this line once in console to get package
+library(tidyverse)
+library(readr)
+library(foreign)
+library(readxl)
+library(haven)
+```
+
+```{r load_data}
+# Use this R-Chunk to import all your datasets!
+dat_gercon <- read_dta("https://byuistats.github.io/M335/data/heights/germanconscr.dta")
+
+dat_bavcon <- read_dta("https://byuistats.github.io/M335/data/heights/germanprison.dta")
+
+url_heights_se <- "https://byuistats.github.io/M335/data/heights/Heights_south-east.zip"
+zip_file <- tempfile()
+unzip_dir <- tempfile()
+downloader::download(url_heights_se, zip_file, mode = "wb")
+unzip(zipfile = zip_file, exdir = unzip_dir)
+file_name <- list.files(unzip_dir, pattern = "DBF")
+file_name
+dat_dbf <- read.dbf(file = file.path(unzip_dir, file_name))
+
+dat_bls <- read_csv("https://github.com/hadley/r4ds/raw/master/data/heights.csv")
+
+dat_nsheight <- read_sav("http://www.ssc.wisc.edu/nsfh/wave3/NSFH3%20Apr%202005%20release/main05022005.sav")
+```
+
+## Background
+
+The Scientific American argues (Links to an external site.) that humans have been getting taller over the years. As the data scientists that we are becoming, we would like to find data that validates this concept. Our challenge is to show different male heights across the centuries.
+
+This project is not as severe as the two quotes below, but it will give you a taste of pulling various data and file formats together into “tidy” data for visualization and analysis. 
+
+“Classroom data are like teddy bears and real data are like a grizzly bear with salmon blood dripping out its mouth.” - Jenny Bryan (Links to an external site.)
+“Up to 80% of data analysis is spent on the process of cleaning and preparing data” - Hadley Wickham (Links to an external site.)
+ 
+
+## Data Wrangling
+
+```{r tidy_data}
+# Use this R-Chunk to clean & wrangle your data!
+gercon <- dat_gercon %>%
+  mutate(birth_year = bdec) %>%
+  rename(height.cm = height) %>%
+  mutate(height.in = height.cm/2.54) %>%
+  mutate(study_id = "gercon") %>%
+  select(birth_year, height.cm, height.in, study_id) %>%
+  glimpse(width = 60)
+
+bavcon <- dat_bavcon %>%
+  mutate(birth_year = bdec) %>%
+  rename(height.cm = height) %>%
+  mutate(height.in = height.cm/2.54) %>%
+  mutate(study_id = "bavcon") %>%
+  select(birth_year, height.cm, height.in, study_id) %>%
+  glimpse(width = 60)
+
+gersol <- dat_dbf %>%
+  mutate(birth_year = GEBJ) %>%
+  mutate(height.cm = CMETER) %>%
+  mutate(height.in = height.cm/2.54) %>%
+  mutate(study_id = "gersol") %>%
+  select(birth_year, height.cm, height.in, study_id) %>%
+  glimpse(width = 60)
+
+bls <- dat_bls %>%
+  mutate(birth_year = 1950) %>%
+  rename(height.in = height) %>%
+  mutate(height.cm = height.in * 2.54) %>%
+  mutate(study_id = "bls") %>%
+  select(birth_year, height.cm, height.in, study_id) %>%
+  glimpse(width = 60)
+
+wns <- dat_nsheight %>% 
+  filter(RT216I >= 0,RT216I <= 11) %>%
+  mutate(birth_year = DOBY + 1900) %>%
+  mutate(height.in = (RT216F * 12) + RT216I) %>%
+  mutate(height.cm = height.in * 2.54) %>%
+  mutate(study_id = "WNS") %>%
+  select(birth_year, height.cm, height.in, study_id) %>%
+  glimpse(width = 60)
+
+height_dat <- bind_rows(gercon, bavcon, gersol, bls, wns)
+```
+
+## Data Visualization
+
+```{r plot_data}
+# Use this R-Chunk to plot & visualize your data!
+ggplot(data = height_dat, aes(x=height.cm)) +
+  geom_histogram() + 
+  facet_grid(rows = vars(study_id), scales = "free_y")
+
+#find average height for each decade
+height_dat <- height_dat %>%
+  mutate(decade = floor(birth_year/10)*10) %>%
+  group_by(decade) %>%
+  mutate(avg_height = mean(height.cm)) %>%
+  ungroup()
+
+ggplot(data = height_dat, aes(x = birth_year)) +
+  geom_line(aes(y=avg_height), color = "red", size = 2) + 
+  geom_jitter(aes(y=height.cm), alpha = .005) + 
+  labs(x = "Birth Year", y = "Height(cm)", title = "Average Height by Decade")
+
+```
+
+## Conclusions
+Based on the data gathered, there does not seem to be any significant change in height over the years. It is interesting to see that there was a greater diversity in height in the 1950s than other years. This may account for the claim that the average height is increasing.

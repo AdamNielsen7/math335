@@ -1,0 +1,85 @@
+---
+title: "CASE STUDY TITLE"
+author: "YOUR NAME"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document:  
+    keep_md: true
+    toc: true
+    toc_float: true
+    code_folding: hide
+    fig_height: 6
+    fig_width: 12
+    fig_align: 'center'
+---
+
+```{r, echo=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+-- Notes  
+Each variable must have its own column.  
+Each observation must have its own row.  
+Each value must have its own cell.  
+  
+Sometimes column names are values, use pivot_longer() to make these into rows  
+eg. pivot_longer(c(`1999`, `2000`), names_to = "year", values_to = "cases")  
+  
+If an observation is scattered accross multiple rows (a column name is a value) use pivot_wider.  
+eg. pivot_wider(names_from = type, values_from = count)  
+
+seperate columns using separate()  
+eg. separate(rate, into = c("cases", "population"), sep = "/")  
+unite eg. unite(new, century, year, sep = "")  
+
+```{r load_libraries, include=FALSE}
+# Use this R-Chunk to load all your libraries!
+#install.packages("tidyverse") # run this line once in console to get package
+library(tidyverse)
+library(readr)
+```
+
+```{r load_data}
+# Use this R-Chunk to import all your datasets!
+stocks <- read_rds(url("https://github.com/byuistats/data/blob/master/Dart_Expert_Dow_6month_anova/Dart_Expert_Dow_6month_anova.RDS?raw=true")) 
+```
+
+## Background
+
+In 1973 Princeton University professor Burton Malkiel said (Links to an external site.),
+
+A blindfolded monkey throwing darts at a newspaper’s financial pages could select a portfolio that would do just as well as one carefully selected by experts.
+
+In 1990 the Wall Street Journal took Burton up on his challenge. They ran this challenge until 2002 and pitted random dart throwing selections to expert picks. 
+
+We have access to stock return data through 1998. Open the dataset and get familiar with it. The "PROS" rows contain returns that professional investors were able to achieve at that date. The "DARTS" rows contain returns of stocks that were selected by monkeys randomly throwing darts. The "DJIA" are returns for stocks in the Dow Jones Industrial Average. The Dow Jones Industrial Average is a group of 30 stocks for large companies with stable earnings. This "index" of stocks is one of the oldest, most closely watched indices in the world and is designed to serve as a proxy, or indicator, of the United States economy in general. (learn about about "the Dow". (Links to an external site.))
+
+We want to look at the returns for each six-month period of the year in which the returns were reported. Your plot should highlight the tighter spread of the DJIA as compared to the other two selection methods (DARTS and PROS). We also need to tidy the data in order to display a table of the DJIA returns with months on the rows and years in the columns (i.e. pivot wider on the data).
+
+## Data Wrangling
+
+```{r tidy_data}
+# Use this R-Chunk to clean & wrangle your data!
+tidy_stocks <- stocks %>%
+  separate(contest_period, into = c("start", "end"), sep = "-") %>%
+  mutate(end = str_replace_all(end, c("Dec." = "December", "Febuary" = "February"))) %>%
+  mutate(end = str_replace_all(end, c("Decembermber" = "December")))
+
+tidy_stocks <- subset (tidy_stocks, select = -start) %>%
+  separate(end, into = c("month", "year"), sep = "(?<=[A-Za-z])(?=[0-9])") %>%
+  pivot_wider(names_from = year, values_from = value) %>%
+  filter(variable == "DJIA")
+
+tidy_stocks[order(match(tidy_stocks$month, month.name)), ]
+  
+```
+
+## Data Visualization
+
+```{r plot_data}
+# Use this R-Chunk to plot & visualize your data!
+ggplot(stocks, mapping = aes(x=contest_period, y=value, group = variable)) +
+  geom_line(mapping = aes(color = variable))
+```
+
+## Conclusions
+DJIA was more consistent than DARTS and PROS. The others had extreme variateions while DJIA remained more moderate.
